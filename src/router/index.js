@@ -46,6 +46,11 @@ const router = new Router({
           component: () => import('@/views/user/Register.vue'),
         },
         {
+          path: 'meditor',
+          name: 'Meditor',
+          component: () => import('@/views/article/meditor.vue'),
+        },
+        {
           path: 'article/*',
           name: 'article',
           component: (resolve) => require(['@/views/article/Index.vue'], resolve),

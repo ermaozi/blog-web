@@ -1,8 +1,17 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
-    <br>
-    <div v-html="markdownHtmlTest"></div>
+    <v-row justify="center">
+      <v-col
+        cols="20"
+        sm="10"
+        md="20"
+        lg="10"
+      >
+        <h1 style="font-size:60px">{{ title }}</h1>
+        <br>
+        <div v-html="markdownHtmlTest"></div>
+      </v-col>
+    </v-row>
   </div>
 </template>
 

@@ -7,19 +7,36 @@
       elevation="1"
       height="80"
     >
-      <v-avatar
-        size="65"
-        v-ripple
-        @click="login()"
-        v-if="loged&!loging"
+      <v-menu
+        open-on-hover
+        top
+        offset-y
       >
-        <base-img
-          :src="require('@/assets/ermaozi.jpg')"
-          contain
-          max-width="80"
-          width="100%"
-        />
-      </v-avatar>
+        <template v-slot:activator="{ on, attrs }">
+          <v-avatar
+            size="65"
+            v-ripple
+            v-if="loged"
+          >
+            <base-img
+              :src="require('@/assets/user-3.jpg')"
+              contain
+              max-width="80"
+              width="100%"
+              v-bind="attrs"
+              v-on="on"
+            />
+          </v-avatar>
+        </template>
+        <v-list>
+          <v-list-item @click="logout()">
+            <v-list-item-title>注销</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="addArticles()">
+            <v-list-item-title>新增文章</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-avatar
         size="65"
         v-ripple
@@ -27,14 +44,6 @@
         v-if="!loged"
       >
         <h4>登 录</h4>
-      </v-avatar>
-      <v-avatar
-        size="65"
-        v-ripple
-        @click="home()"
-        v-if="loging"
-      >
-        <h4>返 回</h4>
       </v-avatar>
 
       <v-spacer />
@@ -79,11 +88,10 @@
     components: {
       HomeDrawer: () => import('./Drawer'),
     },
-
     data: () => ({
-      loged: false,
-      loging: false,
+      loged: Boolean(localStorage.token),
       drawer: null,
+      profilePhoto: '@/assets/user-' + localStorage.userID + '.jpg',
       items: [
         'Home',
         'About',
@@ -92,14 +100,14 @@
     }),
     methods: {
       login () {
-        this.loging = true
-        this.loged = true
         this.$router.push({ path: '/login' })
       },
-      home () {
-        this.loging = false
-        this.loged = false
-        this.$router.push({ path: '/' })
+      logout () {
+        localStorage.clear()
+        location.reload()
+      },
+      addArticles () {
+        this.$router.push({ path: '/meditor' })
       },
     },
   }

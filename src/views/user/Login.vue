@@ -85,10 +85,11 @@
             alert('登陆失败: 账号密码错误')
           } else {
             this.datas = res.data
-            localStorage.clear()
+            // localStorage.clear()
             localStorage.setItem('token', this.datas.token)
+            localStorage.setItem('userID', this.datas.user_id)
             alert('登陆成功!')
-            this.$router.push({ path: '/' })
+            this.$router.go(-1)
           }
         })
       },
