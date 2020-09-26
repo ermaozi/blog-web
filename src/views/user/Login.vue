@@ -8,10 +8,16 @@
     >
       <h2 class="text-xl-left">登 录</h2>
       <br>
-      <br>
+      <v-alert
+        dismissible
+        transition="scale-transition"
+        :type="alertType"
+        :value="alert"
+      >
+        {{ alertMsg }}
+      </v-alert>
       <v-text-field
         v-model="email"
-        clearable
         :rules="[rules.required, rules.email]"
         label="E-mail"
       ></v-text-field>
@@ -27,6 +33,7 @@
         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
         :type="show ? 'text' : 'password'"
         counter
+        v-on:keyup.enter="submit"
         @click:append="show = !show"
       ></v-text-field>
 
@@ -63,6 +70,7 @@
         valid: false,
         menu: false,
         show: false,
+        alert: false,
         email: '',
         password: '',
         rules: {
@@ -77,18 +85,23 @@
     },
     methods: {
       async submit () {
+        console.log(123123123)
         var reqData = {}
         reqData.email = this.email
         reqData.password = this.password
         await login(reqData).then(res => {
           if (res.code !== 200) {
-            alert('登陆失败: 账号密码错误')
+            this.alert = true
+            this.alertType = 'warning'
+            this.alertMsg = '登陆失败: 账号密码错误'
           } else {
             this.datas = res.data
             // localStorage.clear()
             localStorage.setItem('token', this.datas.token)
             localStorage.setItem('userID', this.datas.user_id)
-            alert('登陆成功!')
+            this.alert = true
+            this.alertType = 'success'
+            this.alertMsg = '登录成功!'
             this.$router.go(-1)
           }
         })

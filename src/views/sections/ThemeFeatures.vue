@@ -5,33 +5,41 @@
     </base-section-heading>
 
     <v-container>
-      <v-row>
+      <v-row justify="center">
         <v-col
           v-for="(feature, i) in features"
           :key="i"
-          cols="12"
-          md="6"
+          md="5"
+          @click="jump(feature.id)"
         >
-          <div v-on:click="jump(feature.id)">
-            <base-avatar-card
-              v-bind="feature"
-              align="left"
-              horizontal
+          <v-hover
+            v-slot:default="{ hover }"
+            open-delay="200"
+          >
+            <v-card
+              class="ma-2 pa-2"
+              v-ripple
+              :elevation="hover ? 2 : 0"
             >
-              {{ feature.summary }}
-              <br><br>
-              <div>
-                <v-icon class="mb-1">
-                  mdi-account
-                </v-icon>
-                {{ feature.author }}
-                <v-icon class="mb-1">
-                  mdi-event
-                </v-icon>
-                {{ feature.create_time }}
-              </div>
-            </base-avatar-card>
-          </div>
+              <base-avatar-card
+                v-bind="feature"
+                horizontal
+              >
+                {{ feature.summary }}
+                <br><br>
+                <div>
+                  <v-icon class="mb-1">
+                    mdi-account
+                  </v-icon>
+                  {{ feature.author }}
+                  <v-icon class="mb-1">
+                    mdi-event
+                  </v-icon>
+                  {{ feature.create_time }}
+                </div>
+              </base-avatar-card>
+            </v-card>
+          </v-hover>
         </v-col>
       </v-row>
     </v-container>
