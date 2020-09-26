@@ -33,7 +33,7 @@
         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
         :type="show ? 'text' : 'password'"
         counter
-        v-on:keyup.enter="submit"
+        @keyup.enter="submit"
         @click:append="show = !show"
       ></v-text-field>
 
@@ -83,6 +83,14 @@
         },
       }
     },
+    mounted: function () {
+      if (localStorage.token) {
+        this.alert = true
+        this.alertType = 'success'
+        this.alertMsg = '账号已登录, 返回首页..'
+        this.$router.push('/')
+      }
+    },
     methods: {
       async submit () {
         console.log(123123123)
@@ -102,7 +110,7 @@
             this.alert = true
             this.alertType = 'success'
             this.alertMsg = '登录成功!'
-            this.$router.go(-1)
+            location.reload()
           }
         })
       },

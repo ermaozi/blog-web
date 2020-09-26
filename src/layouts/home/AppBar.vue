@@ -29,11 +29,11 @@
           </v-avatar>
         </template>
         <v-list>
-          <v-list-item @click="logout()">
-            <v-list-item-title>注销</v-list-item-title>
-          </v-list-item>
           <v-list-item @click="addArticles()">
             <v-list-item-title>新增文章</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="logout()">
+            <v-list-item-title>注销</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -91,7 +91,7 @@
     data: () => ({
       loged: Boolean(localStorage.token),
       drawer: null,
-      profilePhoto: '@/assets/user-' + localStorage.userID + '.jpg',
+      profilePhoto: localStorage.userID,
       items: [
         'Home',
         'About',

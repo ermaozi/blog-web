@@ -23,7 +23,9 @@
           label="文章简介"
         ></v-textarea>
         <br>
-        <mavon-editor v-model="content"></mavon-editor>
+        <mavon-editor
+         v-model="content"
+        ></mavon-editor>
         <v-card-actions>
         <v-btn
             text

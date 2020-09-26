@@ -41,6 +41,7 @@
             :type="show ? 'text' : 'password'"
             clearable
             @click:append="show = !show"
+            @keyup.enter="submit"
             :rules="[
               rules.required,
               () => !!password && password.length >= 8 || '密码不可小于 8 位',
@@ -55,6 +56,7 @@
             hint="填写正确且可访问的域名可以增加访客量哦"
             clearable
             required
+            @keyup.enter="submit"
           ></v-text-field>
           <v-menu
             ref="menu"
