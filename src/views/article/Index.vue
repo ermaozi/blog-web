@@ -1,10 +1,7 @@
 <template>
   <div>
-    <!-- <div
-      class="article"
-      v-html="compiledMarkdown"
-    >
-    </div> -->
+    <h1>{{ title }}</h1>
+    <br>
     <div v-html="markdownHtmlTest"></div>
   </div>
 </template>
@@ -32,12 +29,13 @@
   export default {
     name: 'Article',
 
-    metaInfo: { title: '关于' },
+    metaInfo: { title: '文章' },
 
     extends: View,
 
     data () {
       return {
+        title: '',
         markdownHtmlTest: '',
       }
     },
@@ -53,7 +51,6 @@
     },
     methods: {
       async get_info () {
-        console.log(this.$route.params.pathMatch)
         var id = { id: this.$route.params.pathMatch }
         await getArticleForId(id).then(res => {
           this.datas = res.data
@@ -61,9 +58,9 @@
         this.markdownHtmlTest = marked(this.datas.content || '', {
           sanitize: true,
         })
+        this.title = this.datas.title
       },
       jump (id) {
-        console.log(id)
         this.$router.push({ path: '/article/' + id })
       },
     },

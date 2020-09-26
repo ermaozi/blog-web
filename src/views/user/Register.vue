@@ -139,7 +139,10 @@
 </template>
 
 <script>
+  import { register } from '@/utils/api'
+
   export default {
+    metaInfo: { title: '注册' },
     data: () => ({
       menu: false,
       show: false,
@@ -189,7 +192,7 @@
           this.$refs[f].reset()
         })
       },
-      submit () {
+      async submit () {
         this.formHasErrors = false
 
         Object.keys(this.form).forEach(f => {
@@ -199,15 +202,21 @@
           if (!this.form[f]) this.formHasErrors = true
           this.$refs[f].validate(true)
         })
-        console.log(this.formHasErrors)
         if (!this.formHasErrors) {
           var reqData = {}
-          reqData.user = this.user
+          reqData.nickname = this.user
           reqData.domainname = this.domainname
-          reqData.date = this.date
+          reqData.birthday = this.date
           reqData.email = this.email
           reqData.password = this.password
-          console.log(reqData)
+          await register(reqData).then(res => {
+            if (res.code !== 200) {
+              alert(res.message)
+            } else {
+              alert('注册成功!')
+              this.login()
+            }
+          })
         }
       },
       login () {

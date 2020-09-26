@@ -55,7 +55,9 @@
 </template>
 
 <script>
+  import { login } from '@/utils/api'
   export default {
+    metaInfo: { title: '登录' },
     data () {
       return {
         valid: false,
@@ -74,12 +76,21 @@
       }
     },
     methods: {
-      submit () {
+      async submit () {
         var reqData = {}
         reqData.email = this.email
         reqData.password = this.password
-
-        console.log(reqData)
+        await login(reqData).then(res => {
+          if (res.code !== 200) {
+            alert('登陆失败: 账号密码错误')
+          } else {
+            this.datas = res.data
+            localStorage.clear()
+            localStorage.setItem('token', this.datas.token)
+            alert('登陆成功!')
+            this.$router.push({ path: '/' })
+          }
+        })
       },
       register () {
         this.$router.push({ path: '/register' })

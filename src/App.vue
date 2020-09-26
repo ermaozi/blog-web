@@ -8,7 +8,7 @@
   export default {
     name: 'App',
     metaInfo: {
-      title: 'App',
+      title: '加载中..',
       titleTemplate: '二猫子 - blog | %s',
       htmlAttrs: { lang: 'en' },
       meta: [

@@ -64,14 +64,11 @@
         await getAllArticles(currentPage).then(res => {
           this.datas = res.data
         })
-        console.log(this.datas)
         this.features = this.datas.articles
-        console.log(this.features)
         // this.currentPageAll = this.datas["pages_num"]
         // this.rowitem = JSON.parse(JSON.stringify(this.datas["articles"]));
       },
       jump (id) {
-        console.log(id)
         this.$router.push({ path: '/article/' + id })
       },
     },
