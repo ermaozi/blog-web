@@ -9,7 +9,7 @@
         <v-col
           v-for="(feature, i) in features"
           :key="i"
-          md="5"
+          md="10"
           @click="jump(feature.id)"
         >
           <v-hover
@@ -25,6 +25,7 @@
                 v-bind="feature"
                 horizontal
               >
+                <br>
                 {{ feature.summary }}
                 <br><br>
                 <div>
@@ -42,6 +43,11 @@
           </v-hover>
         </v-col>
       </v-row>
+      <v-pagination
+        v-model="page"
+        :length="pagesNum"
+        @input="next"
+      ></v-pagination>
     </v-container>
   </base-section>
 </template>
@@ -51,12 +57,14 @@
   export default {
     name: 'SectionThemeFeatures',
     data: () => ({
+      pagesNum: 1,
+      page: 1,
       features: [
         {
           // color: 'primary',
           // dark: true,
           title: 'Easily Customizable',
-          icon: 'mdi-fountain-pen-tip',
+          // icon: 'mdi-fountain-pen-tip',
           summary: 'testsummary2',
           author: '二猫子',
           create_time: '2020-01-29',
@@ -68,13 +76,18 @@
     methods: {
       async get_info () {
         const datas = {}
-        var currentPage = { current_page: 1 }
-        await getAllArticles(currentPage).then(res => {
+        var page = { current_page: this.page }
+        await getAllArticles(page).then(res => {
           this.datas = res.data
         })
         this.features = this.datas.articles
-        // this.currentPageAll = this.datas["pages_num"]
+        this.pagesNum = this.datas.pages_num
         // this.rowitem = JSON.parse(JSON.stringify(this.datas["articles"]));
+      },
+      next (page) {
+        this.page = page
+        this.get_info()
+        console.log(page)
       },
       jump (id) {
         this.$router.push({ path: '/article/' + id })

@@ -18,8 +18,8 @@
             v-ripple
             v-if="loged"
           >
-            <base-img
-              :src="require('@/assets/user-3.jpg')"
+            <img
+              :src="require('@/assets/user-default.png')"
               contain
               max-width="80"
               width="100%"
@@ -84,11 +84,11 @@
 <script>
   export default {
     name: 'HomeAppBar',
-
     components: {
       HomeDrawer: () => import('./Drawer'),
     },
     data: () => ({
+      defaultImg: 'this.src="' + require('@/assets/user-default.png') + '"',
       loged: Boolean(localStorage.token),
       drawer: null,
       profilePhoto: localStorage.userID,

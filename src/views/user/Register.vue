@@ -1,13 +1,15 @@
 <template>
   <v-row justify="center">
     <v-col
-        cols="12"
-        sm="10"
-        md="8"
-        lg="6"
+      cols="12"
+      sm="10"
+      md="8"
+      lg="6"
     >
       <br><br>
-      <h2 class="text-xl-left">注 册</h2>
+      <h2 class="text-xl-left">
+        注 册
+      </h2>
       <v-card
         flat
         ref="form"
