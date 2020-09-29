@@ -8,6 +8,14 @@
         md="20"
         lg="10"
       >
+        <v-alert
+          dismissible
+          transition="scale-transition"
+          :type="alertType"
+          :value="alert"
+        >
+          {{ alertMsg }}
+        </v-alert>
         <v-text-field
           v-model="title"
           clearable
@@ -24,15 +32,17 @@
         ></v-textarea>
         <br>
         <mavon-editor
-         v-model="content"
+          :tabSize="4"
+          :subfield="false"
+          v-model="content"
         ></mavon-editor>
         <v-card-actions>
         <v-btn
             text
             width="30%"
-            @click="clear"
+            @click="save"
         >
-            清 除
+            保 存
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn
@@ -58,6 +68,9 @@
       mavonEditor,
     },
     data: () => ({
+      show: false,
+      alert: false,
+
       content: localStorage.articleContent,
       title: localStorage.articleTitle,
       summary: localStorage.articleSummary,
@@ -65,7 +78,9 @@
     methods: {
       async submit () {
         if (!localStorage.token) {
-          alert('请先登录!')
+          this.alert = true
+          this.alertType = 'error'
+          this.alertMsg = '新增文章失败, 草稿已保存, 请先登录'
           localStorage.setItem('articleContent', this.content)
           localStorage.setItem('articleTitle', this.title)
           localStorage.setItem('articleSummary', this.summary)
@@ -82,7 +97,9 @@
           if (res.code !== 200) {
             alert(res.message)
           } else {
-            alert('新增文章成功!')
+            this.alert = true
+            this.alertType = 'success'
+            this.alertMsg = '新增文章成功!'
             localStorage.setItem('articleContent', '')
             localStorage.setItem('articleTitle', '')
             localStorage.setItem('articleSummary', '')
@@ -90,8 +107,13 @@
           }
         })
       },
-      clear () {
-        this.article = ''
+      save () {
+        this.alert = true
+        this.alertType = 'success'
+        this.alertMsg = '保存成功!'
+        localStorage.setItem('articleContent', this.content)
+        localStorage.setItem('articleTitle', this.title)
+        localStorage.setItem('articleSummary', this.summary)
       },
     },
   }
