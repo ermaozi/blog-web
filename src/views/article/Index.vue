@@ -7,9 +7,20 @@
         md="20"
         lg="10"
       >
-        <h1 style="font-size:60px">{{ title }}</h1>
-        <br>
-        <div v-html="markdownHtmlTest"></div>
+        <v-skeleton-loader
+          :loading="loading"
+          ref="skeleton"
+          type="article"
+          class="mx-auto"
+        >
+          <h1 style="font-size:60px">{{ title }}</h1>
+          <br>
+          <div
+            v-html="markdownHtmlTest"
+            class="hljs"
+            ref="hlDiv"
+          ></div>
+        </v-skeleton-loader>
       </v-col>
     </v-row>
   </div>
@@ -19,13 +30,19 @@
   // Extensions
   import View from '@/views/View'
   import marked from 'marked'
-
+  import hljs from 'highlight.js'
+  import javascript from 'highlight.js/lib/languages/javascript'
+  import 'highlight.js/styles/github.css'
+  import '@/styles/markdown.css'
   // Mixins
   import LoadSections from '@/mixins/load-sections'
   import { getArticleForId } from '@/utils/api'
 
   marked.setOptions({
     renderer: new marked.Renderer(),
+    highlight: function (code) {
+      return hljs.highlightAuto(code).value
+    },
     gfm: true,
     tables: true,
     breaks: false,
@@ -33,12 +50,11 @@
     sanitize: false,
     smartLists: true,
     smartypants: false,
+    xhtml: false,
   })
 
   export default {
     name: 'Article',
-
-    metaInfo: { title: '文章' },
 
     extends: View,
 
@@ -46,12 +62,13 @@
       return {
         title: '',
         markdownHtmlTest: '',
+        loading: true,
       }
     },
 
     mixins: [
       LoadSections([
-        // 'hero-alt',
+        'hero-alt',
         'about-our-product',
       ]),
     ],
@@ -68,6 +85,8 @@
           sanitize: true,
         })
         this.title = this.datas.title
+        this.loading = false
+        document.title = '二猫子 - blog | ' + this.title
       },
       jump (id) {
         this.$router.push({ path: '/article/' + id })
