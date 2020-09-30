@@ -61,7 +61,7 @@
                 <v-btn
                   text
                   small
-                  @click.stop="dialog = true"
+                  @click.stop="showAlent(card.id)"
                 >删除</v-btn>
               </template>
               <v-card>
@@ -76,7 +76,7 @@
                   <v-btn
                     color="green"
                     text
-                    @click="delete_articles(card.id)"
+                    @click="delete_articles()"
                   >确定删除</v-btn>
                 </v-card-actions>
               </v-card>
@@ -110,11 +110,11 @@
     provide: {
       heading: { align: 'center' },
     },
-
     data: () => ({
       show: false,
       alert: false,
-      alertMsg: '',
+	  alertMsg: '',
+	  delId: 1,
       alertType: '',
       dialog: false,
       pagesNum: 1,
@@ -141,7 +141,7 @@
       if_user (userId) {
         return Number(localStorage.userID) === userId
       },
-      async delete_articles (id) {
+      async delete_articles () {
         if (!localStorage.token) {
           this.alert = true
           this.alertType = 'error'
@@ -149,7 +149,7 @@
           return
         }
         var data = {}
-        data.id = id
+        data.id = this.delId
         data.userID = localStorage.userID
         data.token = localStorage.token
         await delArticle(data).then(res => {
@@ -162,6 +162,10 @@
             location.reload()
           }
         })
+	  },
+	  showAlent (id) {
+      this.delId = id;
+      this.dialog = true;
       },
       set_articles () {
           this.alert = true
